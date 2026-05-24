@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openai-codex-client"
+version = "0.1.0"
+description = "Standalone OpenAI Codex OAuth client with image generation & editing (ChatGPT OAuth)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.27",
+    "keyring>=25.0",
+]
+
+[project.scripts]
+openai-codex = "openai_codex.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["openai_codex*"]

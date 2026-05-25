@@ -103,12 +103,14 @@ def read_video_cv2(video_path: str):
 def read_audio(audio_path: str, audio_sample_rate: int = 16000):
     if audio_path is None:
         raise ValueError("Audio path is required.")
-    ar = AudioReader(audio_path, sample_rate=audio_sample_rate, mono=True)
-
-    # To access the audio samples
-    audio_samples = torch.from_numpy(ar[:].asnumpy())
-    audio_samples = audio_samples.squeeze(0)
-
+    try:
+        ar = AudioReader(audio_path, sample_rate=audio_sample_rate, mono=True)
+        audio_samples = torch.from_numpy(ar[:].asnumpy()).squeeze(0)
+    except Exception:
+        # decord AudioReader broken on Apple Silicon — fall back to librosa
+        import librosa
+        samples, _ = librosa.load(audio_path, sr=audio_sample_rate, mono=True)
+        audio_samples = torch.from_numpy(samples)
     return audio_samples
 
 

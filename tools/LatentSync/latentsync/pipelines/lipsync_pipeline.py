@@ -249,19 +249,58 @@ class LipsyncPipeline(DiffusionPipeline):
         images = images.cpu().numpy()
         return images
 
-    def affine_transform_video(self, video_frames: np.ndarray):
-        faces = []
-        boxes = []
-        affine_matrices = []
-        print(f"Affine transforming {len(video_frames)} faces...")
-        for frame in tqdm.tqdm(video_frames):
-            face, box, affine_matrix = self.image_processor.affine_transform(frame)
-            faces.append(face)
-            boxes.append(box)
-            affine_matrices.append(affine_matrix)
+    def affine_transform_video(self, video_frames: np.ndarray, video_path: str | None = None):
+        from latentsync.utils.face_detector import vision_prescreen_video
 
-        faces = torch.stack(faces)
-        return faces, boxes, affine_matrices
+        # Pre-screen with Apple Vision (ANE) when a video path is available.
+        # Frames with no Vision-detected face skip the slow InsightFace ONNX call
+        # and reuse the last valid detection instead.
+        vision_faces: dict = {}
+        if video_path is not None:
+            vision_faces = vision_prescreen_video(video_path)
+            if vision_faces:
+                hit = len(vision_faces)
+                total = len(video_frames)
+                print(f"[face-detect] Vision pre-screen: {hit}/{total} frames have faces")
+
+        # Slot-per-frame lists — None entries are forward-filled after the loop
+        # so len(faces) always equals len(video_frames).
+        face_slots: list = [None] * len(video_frames)
+        box_slots: list  = [None] * len(video_frames)
+        mat_slots: list  = [None] * len(video_frames)
+
+        print(f"Affine transforming {len(video_frames)} faces...")
+        for i, frame in enumerate(tqdm.tqdm(video_frames)):
+            # Vision said no face here AND we already have a prior detection — skip InsightFace
+            if vision_faces and i not in vision_faces and any(f is not None for f in face_slots[:i]):
+                continue  # slot stays None; forward-fill handles it below
+
+            try:
+                face, box, affine_matrix = self.image_processor.affine_transform(frame)
+                face_slots[i] = face
+                box_slots[i]  = box
+                mat_slots[i]  = affine_matrix
+            except RuntimeError:
+                pass  # slot stays None; forward-fill handles it below
+
+        # Forward-fill None slots using nearest valid detection
+        # (covers face-off-camera moments and the Vision-skipped frames)
+        last_face = last_box = last_mat = None
+        for i in range(len(face_slots)):
+            if face_slots[i] is not None:
+                last_face, last_box, last_mat = face_slots[i], box_slots[i], mat_slots[i]
+            elif last_face is not None:
+                face_slots[i], box_slots[i], mat_slots[i] = last_face, last_box, last_mat
+
+        # Backward-fill any leading None slots (face not visible in first frames)
+        first_valid = next((i for i, f in enumerate(face_slots) if f is not None), None)
+        if first_valid is None:
+            raise RuntimeError("No faces detected in any frame")
+        for i in range(first_valid):
+            face_slots[i], box_slots[i], mat_slots[i] = face_slots[first_valid], box_slots[first_valid], mat_slots[first_valid]
+
+        faces = torch.stack(face_slots)
+        return faces, box_slots, mat_slots
 
     def restore_video(self, faces: torch.Tensor, video_frames: np.ndarray, boxes: list, affine_matrices: list):
         video_frames = video_frames[: len(faces)]
@@ -278,10 +317,10 @@ class LipsyncPipeline(DiffusionPipeline):
             out_frames.append(out_frame)
         return np.stack(out_frames, axis=0)
 
-    def loop_video(self, whisper_chunks: list, video_frames: np.ndarray):
+    def loop_video(self, whisper_chunks: list, video_frames: np.ndarray, video_path: str | None = None):
         # If the audio is longer than the video, we need to loop the video
         if len(whisper_chunks) > len(video_frames):
-            faces, boxes, affine_matrices = self.affine_transform_video(video_frames)
+            faces, boxes, affine_matrices = self.affine_transform_video(video_frames, video_path=video_path)
             num_loops = math.ceil(len(whisper_chunks) / len(video_frames))
             loop_video_frames = []
             loop_faces = []
@@ -305,7 +344,7 @@ class LipsyncPipeline(DiffusionPipeline):
             affine_matrices = loop_affine_matrices[: len(whisper_chunks)]
         else:
             video_frames = video_frames[: len(whisper_chunks)]
-            faces, boxes, affine_matrices = self.affine_transform_video(video_frames)
+            faces, boxes, affine_matrices = self.affine_transform_video(video_frames, video_path=video_path)
 
         return video_frames, faces, boxes, affine_matrices
 
@@ -339,7 +378,7 @@ class LipsyncPipeline(DiffusionPipeline):
         # 0. Define call parameters
         device = self._execution_device
         mask_image = load_fixed_mask(height, mask_image_path)
-        self.image_processor = ImageProcessor(height, device="cuda", mask_image=mask_image)
+        self.image_processor = ImageProcessor(height, device=str(device), mask_image=mask_image)
         self.set_progress_bar_config(desc=f"Sample frames: {num_frames}")
 
         # 1. Default height and width to unet
@@ -367,7 +406,7 @@ class LipsyncPipeline(DiffusionPipeline):
         audio_samples = read_audio(audio_path)
         video_frames = read_video(video_path, use_decord=False)
 
-        video_frames, faces, boxes, affine_matrices = self.loop_video(whisper_chunks, video_frames)
+        video_frames, faces, boxes, affine_matrices = self.loop_video(whisper_chunks, video_frames, video_path=video_path)
 
         synced_video_frames = []
 

@@ -97,6 +97,14 @@ for repo, filename, dest in files:
 print("Checkpoints done.")
 PYEOF
 
+# ── 6. Pre-cache the VAE (avoids 4-min download on first inference run) ─────
+echo "Pre-caching Stable Diffusion VAE (stabilityai/sd-vae-ft-mse)..."
+"$ENV_PYTHON" - <<'PYEOF'
+from diffusers import AutoencoderKL
+AutoencoderKL.from_pretrained("stabilityai/sd-vae-ft-mse")
+print("VAE cached.")
+PYEOF
+
 echo ""
 echo "LatentSync setup complete."
 echo "Test with:"

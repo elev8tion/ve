@@ -45,7 +45,29 @@ async function runPipeline(jobId: string, payload: GeneratePayload): Promise<voi
 
     const { photoUrls, audioUrl, shotStyle, creativePrompt, customOutfitDescription } = payload;
 
-    const scenePrompt = buildScenePrompt(shotStyle, creativePrompt, customOutfitDescription);
+    // ── Step 1.5: VLM appearance description (on-device, best-effort) ────────
+    updateJob(jobId, { pipeline_step: 'face_swap', progress: 10 });
+
+    let artistDescription: string | undefined;
+    if (photoUrls.length > 0) {
+      try {
+        const vlmScript = path.join(process.cwd(), 'tools', 'vlm_describe.py');
+        const vlmArgs = [...photoUrls];
+        const { stdout: vlmOut } = await execFileAsync(
+          'python3',
+          [vlmScript, '--images', ...vlmArgs],
+          { timeout: 45_000 },
+        );
+        const vlmResult = JSON.parse(vlmOut.trim());
+        if (vlmResult.success && vlmResult.description) {
+          artistDescription = vlmResult.description;
+        }
+      } catch {
+        // VLM is optional — pipeline continues without it
+      }
+    }
+
+    const scenePrompt = buildScenePrompt(shotStyle, creativePrompt, customOutfitDescription, artistDescription);
 
     // Call the Python Codex media client as a subprocess
     const codexScript = path.join(process.cwd(), 'openai-codex-client', 'generate_image_cli.py');
@@ -243,9 +265,11 @@ async function runPipeline(jobId: string, payload: GeneratePayload): Promise<voi
 function buildScenePrompt(
   shotStyle: string,
   creativePrompt?: string,
-  outfitDescription?: string
+  outfitDescription?: string,
+  artistDescription?: string,
 ): string {
   const parts = [`Music video scene: ${shotStyle}`];
+  if (artistDescription) parts.push(`Artist: ${artistDescription}`);
   if (outfitDescription) parts.push(`Artist outfit: ${outfitDescription}`);
   if (creativePrompt) parts.push(creativePrompt);
   parts.push('Cinematic quality, professional lighting, 4K, vertical format.');

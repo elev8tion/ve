@@ -38,6 +38,9 @@ tools/LatentSync/temp/
 tools/LatentSync/output/
 
 
+# Third-party cloned repos (reference only, not part of this project)
+tools/mlx-examples/
+
 # Logs
 *.log
 npm-debug.log*

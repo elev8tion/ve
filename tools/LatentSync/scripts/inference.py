@@ -30,9 +30,17 @@ def main(config, args):
     if not os.path.exists(args.audio_path):
         raise RuntimeError(f"Audio path '{args.audio_path}' not found")
 
-    # Check if the GPU supports float16
-    is_fp16_supported = torch.cuda.is_available() and torch.cuda.get_device_capability()[0] > 7
+    if torch.cuda.is_available():
+        device = "cuda"
+        is_fp16_supported = torch.cuda.get_device_capability()[0] > 7
+    elif torch.backends.mps.is_available():
+        device = "mps"
+        is_fp16_supported = False  # MPS float16 is unstable
+    else:
+        device = "cpu"
+        is_fp16_supported = False
     dtype = torch.float16 if is_fp16_supported else torch.float32
+    print(f"Using device: {device}")
 
     print(f"Input video path: {args.video_path}")
     print(f"Input audio path: {args.audio_path}")
@@ -49,7 +57,7 @@ def main(config, args):
 
     audio_encoder = Audio2Feature(
         model_path=whisper_model_path,
-        device="cuda",
+        device=device,
         num_frames=config.data.num_frames,
         audio_feat_length=config.data.audio_feat_length,
     )
@@ -71,7 +79,7 @@ def main(config, args):
         audio_encoder=audio_encoder,
         unet=unet,
         scheduler=scheduler,
-    ).to("cuda")
+    ).to(device)
 
     # use DeepCache
     if args.enable_deepcache:

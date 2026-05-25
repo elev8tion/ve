@@ -1,18 +1,61 @@
 from insightface.app import FaceAnalysis
+import json
+import shutil
+import subprocess
+from pathlib import Path
 import numpy as np
 import torch
+
+
+def vision_prescreen_video(video_path: str, threshold: float = 0.5) -> dict:
+    """
+    Runs face-detect (Apple Vision / ANE) on the video and returns
+    {frame_index: face_dict} for every frame that has at least one face.
+    Returns {} when face-detect is not available — caller falls back to
+    running InsightFace on every frame as before.
+    """
+    cli = shutil.which("face-detect")
+    if cli is None:
+        candidate = Path.home() / "prismakit/.build/release/face-detect"
+        cli = str(candidate) if candidate.exists() else None
+    if cli is None:
+        return {}
+
+    try:
+        result = subprocess.run(
+            [cli, "--video", video_path, "--threshold", str(threshold)],
+            capture_output=True, text=True, timeout=120,
+        )
+        if result.returncode != 0:
+            return {}
+        faces_by_frame: dict = {}
+        for line in result.stdout.strip().splitlines():
+            data = json.loads(line)
+            if data.get("faces"):
+                faces_by_frame[data["frame"]] = data["faces"][0]
+        return faces_by_frame
+    except Exception:
+        return {}
+
 
 INSIGHTFACE_DETECT_SIZE = 512
 
 
 class FaceDetector:
     def __init__(self, device="cuda"):
+        d = torch.device(device) if not isinstance(device, torch.device) else device
+        if d.type == "cuda":
+            providers = ["CUDAExecutionProvider", "CPUExecutionProvider"]
+            ctx_id = d.index or 0
+        else:
+            providers = ["CoreMLExecutionProvider", "CPUExecutionProvider"]
+            ctx_id = -1
         self.app = FaceAnalysis(
             allowed_modules=["detection", "landmark_2d_106"],
             root="checkpoints/auxiliary",
-            providers=["CUDAExecutionProvider"],
+            providers=providers,
         )
-        self.app.prepare(ctx_id=cuda_to_int(device), det_size=(INSIGHTFACE_DETECT_SIZE, INSIGHTFACE_DETECT_SIZE))
+        self.app.prepare(ctx_id=ctx_id, det_size=(INSIGHTFACE_DETECT_SIZE, INSIGHTFACE_DETECT_SIZE))
 
     def __call__(self, frame, threshold=0.5):
         f_h, f_w, _ = frame.shape

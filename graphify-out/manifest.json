@@ -1,0 +1,786 @@
+{
+  "/Users/kc/visualessential-scaffold/tailwind.config.ts": {
+    "mtime": 1779627638.666812,
+    "hash": "3796465fd07cd27164640f7f32c57fe8"
+  },
+  "/Users/kc/visualessential-scaffold/postcss.config.js": {
+    "mtime": 1779627639.3608792,
+    "hash": "8640f9b2e6475cc3f5b1ff4548925765"
+  },
+  "/Users/kc/visualessential-scaffold/next.config.ts": {
+    "mtime": 1779637095.805191,
+    "hash": "c62fac23a8e15d89b58739bc9c15a7e7"
+  },
+  "/Users/kc/visualessential-scaffold/tools/lipsync.py": {
+    "mtime": 1779642418.5508213,
+    "hash": "f7dae30293060eb865658fe1f1a291bb"
+  },
+  "/Users/kc/visualessential-scaffold/tools/latentsync.py": {
+    "mtime": 1779657915.1065233,
+    "hash": "1b546c26fdceafc926a75c1245da6d9d"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/predict.py": {
+    "mtime": 1779657957.825335,
+    "hash": "da7332a81f46efd9dc546e86a9b15102"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/gradio_app.py": {
+    "mtime": 1779657957.8113244,
+    "hash": "691d0a21a9fdc7bfb46bc5f9666db1e1"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/tools/remove_outdated_files.py": {
+    "mtime": 1779657957.8274832,
+    "hash": "9c3a74d18657b955b9fabd7d1251224f"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/tools/download_web_videos.py": {
+    "mtime": 1779657957.8270473,
+    "hash": "66836e0ccfbfc48b69e4c689a6bbcdb5"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/tools/write_fileslist.py": {
+    "mtime": 1779657957.8275723,
+    "hash": "013f935428a0b3c1b3ecd0c3501d14af"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/tools/move_files_recur.py": {
+    "mtime": 1779657957.8271403,
+    "hash": "31f708c68de112b587305bd3d4fd462d"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/tools/occupy_gpu.py": {
+    "mtime": 1779657957.827254,
+    "hash": "0f4ded3316faacf4dc5e8cc64071e7e3"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/tools/count_total_videos_time.py": {
+    "mtime": 1779657957.8269622,
+    "hash": "c64bfc3f2f8a071b88a772f73af05232"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/tools/plot_videos_time_distribution.py": {
+    "mtime": 1779657957.8273895,
+    "hash": "fb375ceb2a93fbaa9792d5bd72dce8fc"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/preprocess/filter_visual_quality.py": {
+    "mtime": 1779657957.82581,
+    "hash": "22e034735128d218983599292e72a89c"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/preprocess/filter_high_resolution.py": {
+    "mtime": 1779657957.8257415,
+    "hash": "9b26c6bc7c4be942ed2e3ec0ee2cd3b2"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/preprocess/segment_videos.py": {
+    "mtime": 1779657957.8261645,
+    "hash": "be9b44db94790a7d3abf3616535bc6ca"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/preprocess/resample_fps_hz.py": {
+    "mtime": 1779657957.8260727,
+    "hash": "7f5ddc161f02664c8693fc1a03b54b7b"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/preprocess/data_processing_pipeline.py": {
+    "mtime": 1779657957.8255708,
+    "hash": "821bb3a4874e073ebb5afbbc07c6dc40"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/preprocess/remove_broken_videos.py": {
+    "mtime": 1779657957.825893,
+    "hash": "b8a2c68ecda9dc6e341349e298f3a67d"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/preprocess/affine_transform.py": {
+    "mtime": 1779657957.8254874,
+    "hash": "ca7ae9254841424fa71f6de203a92548"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/preprocess/detect_shot.py": {
+    "mtime": 1779657957.825662,
+    "hash": "8635bdd326c57085b23905abd014ac9e"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/preprocess/remove_incorrect_affined.py": {
+    "mtime": 1779657957.825985,
+    "hash": "40e2f36cee604045c3d181d43b8c087f"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/preprocess/sync_av.py": {
+    "mtime": 1779657957.8262534,
+    "hash": "3b5339f48243830a1902d965314f44c7"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/pipelines/lipsync_pipeline.py": {
+    "mtime": 1779657957.8127937,
+    "hash": "6a301a83c2d425e102a07c06d614fe0a"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/utils/image_processor.py": {
+    "mtime": 1779657957.8144355,
+    "hash": "a711fc745ae86804f178e41d35a83270"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/utils/util.py": {
+    "mtime": 1779657957.815014,
+    "hash": "9c522ff70271f7f4d34a2570d0fc88bd"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/utils/av_reader.py": {
+    "mtime": 1779657957.814188,
+    "hash": "685af6078221d607982454dbd2543c7e"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/utils/audio.py": {
+    "mtime": 1779657957.8140926,
+    "hash": "1e979224c8eacd7a7af196927b7e4a27"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/utils/affine_transform.py": {
+    "mtime": 1779657957.813986,
+    "hash": "3f59294f1c0ca3ccb3e6c5f6150fa068"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/utils/face_detector.py": {
+    "mtime": 1779657957.8142822,
+    "hash": "fe11fcc440928aadf90bb8dc32c99d1f"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/models/attention.py": {
+    "mtime": 1779657957.8119097,
+    "hash": "f324c8a0137ed1a24eac106719b1a51b"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/models/wav2lip_syncnet.py": {
+    "mtime": 1779657957.8126156,
+    "hash": "24347b446dcf96965836398d8680824a"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/models/unet.py": {
+    "mtime": 1779657957.8123374,
+    "hash": "c178ac5f90d8a430e7b9fc6ed34e4acc"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/models/unet_blocks.py": {
+    "mtime": 1779657957.8124506,
+    "hash": "e3614d337b50452ef58611eb9c21c08b"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/models/motion_module.py": {
+    "mtime": 1779657957.8120134,
+    "hash": "c70bf4c797992d9abb10a4ad9f3286ea"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/models/resnet.py": {
+    "mtime": 1779657957.812117,
+    "hash": "bdae184324848343498b37e01b224606"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/models/stable_syncnet.py": {
+    "mtime": 1779657957.812213,
+    "hash": "d30b0ec80b0a9e561c8aadece10445b5"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/models/utils.py": {
+    "mtime": 1779657957.8125324,
+    "hash": "6ff3e23144989489a0634d76eedc238b"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/trepa/loss.py": {
+    "mtime": 1779657957.8129494,
+    "hash": "6253c46e51cebb78b061b46008c0e295"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/trepa/utils/__init__.py": {
+    "mtime": 1779657957.8136187,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/trepa/utils/metric_utils.py": {
+    "mtime": 1779657957.8138185,
+    "hash": "9be8eeb16e35c0d55cb13ad545d9dec8"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/trepa/utils/data_utils.py": {
+    "mtime": 1779657957.8137326,
+    "hash": "fbf59573411ee0cc9af6b25fbf322c02"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/trepa/third_party/__init__.py": {
+    "mtime": 1779657957.8134916,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/trepa/third_party/VideoMAEv2/videomaev2_pretrain.py": {
+    "mtime": 1779657957.8134525,
+    "hash": "e08ce204f335385c140e59663212fd15"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/trepa/third_party/VideoMAEv2/__init__.py": {
+    "mtime": 1779657957.8131194,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/trepa/third_party/VideoMAEv2/utils.py": {
+    "mtime": 1779657957.813226,
+    "hash": "3e3651b197f810ac0189dcf134c98fba"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/trepa/third_party/VideoMAEv2/videomaev2_finetune.py": {
+    "mtime": 1779657957.8133588,
+    "hash": "e0672687128c9ccb70414d8527bba777"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/data/unet_dataset.py": {
+    "mtime": 1779657957.8117416,
+    "hash": "1bffd36c47747ff568d8f0fa37638575"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/data/syncnet_dataset.py": {
+    "mtime": 1779657957.811648,
+    "hash": "3dc3b7a33f0837c61c90fa272978b7a7"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/audio2feature.py": {
+    "mtime": 1779657957.815181,
+    "hash": "eb4e450d2c2a043947195de9f9fb7bc9"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/__init__.py": {
+    "mtime": 1779657957.8153236,
+    "hash": "ad58dbc134b5fb003b98e9af71d31373"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/decoding.py": {
+    "mtime": 1779657957.8243663,
+    "hash": "ce3861ae6af75aca20e25f91dd0feeeb"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/model.py": {
+    "mtime": 1779657957.8244698,
+    "hash": "bc80c175df751f8a08f99b929300baf0"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/tokenizer.py": {
+    "mtime": 1779657957.8250754,
+    "hash": "35c48d7be9dc01f5a93ca171c4a6e5fb"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/utils.py": {
+    "mtime": 1779657957.8252573,
+    "hash": "bc2931ab440f0a8fabb72d75db8e7557"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/transcribe.py": {
+    "mtime": 1779657957.825183,
+    "hash": "4aa6c381b5fbb1f0ed2bab307b1beecb"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/audio.py": {
+    "mtime": 1779657957.8242116,
+    "hash": "a4ba8078743e1220f8c7586faf4563b7"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/__main__.py": {
+    "mtime": 1779657957.815422,
+    "hash": "409b3266aff0184110e1a82216f989e5"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/normalizers/__init__.py": {
+    "mtime": 1779657957.8245997,
+    "hash": "f819c931aee38ec1efeec8efeaa8d4ba"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/normalizers/basic.py": {
+    "mtime": 1779657957.8246782,
+    "hash": "0391fec4bce041ccfc319fa8a1f3eae3"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/normalizers/english.py": {
+    "mtime": 1779657957.8249695,
+    "hash": "616da22bbc6db590707919719a8c97d0"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/scripts/train_syncnet.py": {
+    "mtime": 1779657957.826624,
+    "hash": "f52c71a00da30ebab007ed489de81070"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/scripts/train_unet.py": {
+    "mtime": 1779657957.82674,
+    "hash": "a796cc02b99bbd9c3e5138825024364a"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/scripts/inference.py": {
+    "mtime": 1779657957.8264868,
+    "hash": "727a755e759dfc989668197d14a18dff"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/hyper_iqa.py": {
+    "mtime": 1779657957.810713,
+    "hash": "4ceec94b6a0d19ed8ee9e00de2661911"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/syncnet_detect.py": {
+    "mtime": 1779657957.8112383,
+    "hash": "2efc6d4a23ec4559ed2f78b6780b33fd"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/inference_videos.py": {
+    "mtime": 1779657957.810825,
+    "hash": "3b68439c9cf590258e58184748015ac5"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/eval_fvd.py": {
+    "mtime": 1779657957.8100932,
+    "hash": "0b9f64f2a91412ae759096e9ed972717"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/draw_syncnet_lines.py": {
+    "mtime": 1779657957.8099911,
+    "hash": "ee9e0bc769dd11a1aa7fdcd7a82769ba"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/fvd.py": {
+    "mtime": 1779657957.8105881,
+    "hash": "015a7f3351c66f1368c60c8cae8dac6d"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/eval_sync_conf.py": {
+    "mtime": 1779657957.8102016,
+    "hash": "01f31b21d1d740e7e443ee00626489cd"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/eval_syncnet_acc.py": {
+    "mtime": 1779657957.8103874,
+    "hash": "0f0934e2fb46119bff87e5f232b7ab1b"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/syncnet/syncnet_eval.py": {
+    "mtime": 1779657957.8111384,
+    "hash": "fd1eaf729ad702d86724c51410757a0a"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/syncnet/syncnet.py": {
+    "mtime": 1779657957.8110523,
+    "hash": "2534b56f451fb2636d09b068ffd4add9"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/syncnet/__init__.py": {
+    "mtime": 1779657957.8109653,
+    "hash": "16f0c0f17754cdaed00fa69c5aca69da"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/detectors/__init__.py": {
+    "mtime": 1779657957.8095481,
+    "hash": "30d9b50f6c46e86c2c128633437ec6ad"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/detectors/s3fd/__init__.py": {
+    "mtime": 1779657957.8096976,
+    "hash": "84f8b6d8c54b14627adeb5203221ad6e"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/detectors/s3fd/box_utils.py": {
+    "mtime": 1779657957.809797,
+    "hash": "36d0202445f5384ef74016ec1d13ecb5"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/detectors/s3fd/nets.py": {
+    "mtime": 1779657957.809887,
+    "hash": "11b05b2c7baa6141875967edf4031dee"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/easy_functions.py": {
+    "mtime": 1779642425.4293668,
+    "hash": "9ea6dc9229936a6a5a279ac8e8f8398e"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/run.py": {
+    "mtime": 1779642425.4308271,
+    "hash": "7bf2a345e18d90cbeb8b07e8b1e99d85"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/hparams.py": {
+    "mtime": 1779642425.429605,
+    "hash": "46691dfd366c7c7d70c50314b05a7521"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/enhance.py": {
+    "mtime": 1779642425.429485,
+    "hash": "e6d1ce42a53282db411fadb3a7c78f36"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/inference.py": {
+    "mtime": 1779642425.4297724,
+    "hash": "72b13ea5ec3a98e13bd4cc8ba4330c59"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/audio.py": {
+    "mtime": 1779642425.4197886,
+    "hash": "569bc238d7f892cd6b981c1d744019f7"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/install.py": {
+    "mtime": 1779642425.4299037,
+    "hash": "d25b476ddb962cb0006654506443cd9e"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/degradations.py": {
+    "mtime": 1779642425.4292119,
+    "hash": "e0e6526bd5d486d8211f2f19c6220746"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/GUI.py": {
+    "mtime": 1779642425.419436,
+    "hash": "f74fce9e10953d798216b97c323f2474"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/models/syncnet.py": {
+    "mtime": 1779642425.4302893,
+    "hash": "f88755e3c9f0f8e44794bdd6aec5ffff"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/models/__init__.py": {
+    "mtime": 1779642425.4300747,
+    "hash": "5caf787ab49ca06acbb57c539a6f2d33"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/models/wav2lip.py": {
+    "mtime": 1779642425.4304154,
+    "hash": "b8c552dafab5fa46c66004046718c68e"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/models/conv.py": {
+    "mtime": 1779642425.4301805,
+    "hash": "5dd76bae8deffb8a8e46c7eeca4b5960"
+  },
+  "/Users/kc/visualessential-scaffold/app/layout.tsx": {
+    "mtime": 1779627784.2102573,
+    "hash": "fc4216b999569520cda72accc1c1ecf9"
+  },
+  "/Users/kc/visualessential-scaffold/app/page.tsx": {
+    "mtime": 1779627808.5844805,
+    "hash": "b6683fae52e118e4a70711768fb8e1f5"
+  },
+  "/Users/kc/visualessential-scaffold/app/api/clips/generate/route.ts": {
+    "mtime": 1779657928.2232416,
+    "hash": "e006501a4b7b8d390793586e33972d83"
+  },
+  "/Users/kc/visualessential-scaffold/app/api/clips/[id]/route.ts": {
+    "mtime": 1779642205.0105367,
+    "hash": "f5b84f36e005c27720fe4cb1708d5ff4"
+  },
+  "/Users/kc/visualessential-scaffold/app/api/uploads/[id]/route.ts": {
+    "mtime": 1779637086.937509,
+    "hash": "162ec7030f8478a105858485eb9887b1"
+  },
+  "/Users/kc/visualessential-scaffold/app/api/audio/youtube/route.ts": {
+    "mtime": 1779627780.2291846,
+    "hash": "d65d4afe8f70f123ba29bc161a26bc57"
+  },
+  "/Users/kc/visualessential-scaffold/app/api/upload/route.ts": {
+    "mtime": 1779637069.952394,
+    "hash": "0085db91ee1cc11b24652539414a0c3a"
+  },
+  "/Users/kc/visualessential-scaffold/app/api/convert-heic/route.ts": {
+    "mtime": 1779637464.9240758,
+    "hash": "54cee9fdb5a1b5776383a90fd9d1d19d"
+  },
+  "/Users/kc/visualessential-scaffold/app/create/page.tsx": {
+    "mtime": 1779627925.9162443,
+    "hash": "47164ebf8ea2640b969fb213e017be14"
+  },
+  "/Users/kc/visualessential-scaffold/app/shots/page.tsx": {
+    "mtime": 1779627823.9126818,
+    "hash": "09426b9d803109f64c00fbf09cb4b232"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/generate_image_cli.py": {
+    "mtime": 1779651105.8849518,
+    "hash": "cbfda0d4ad9e43a828a4288cf86b08e5"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/example_media.py": {
+    "mtime": 1779649710.4299183,
+    "hash": "a684a9a644c2374fa5eefe9efcf4cc24"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/example.py": {
+    "mtime": 1779649710.4296236,
+    "hash": "1840eafeae6ce9312080e9f029b98363"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/openai_codex/media.py": {
+    "mtime": 1779651046.3222475,
+    "hash": "1325afbc77f615c7c7e4cf9f1b558238"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/openai_codex/client.py": {
+    "mtime": 1779649710.4311795,
+    "hash": "b1d1bddc4192528caf78f4c99baeb255"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/openai_codex/constants.py": {
+    "mtime": 1779649710.4315813,
+    "hash": "1eaef95eabdcbf581b1a33180d387f97"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/openai_codex/__init__.py": {
+    "mtime": 1779649710.4305046,
+    "hash": "9d77d4f7f7a685cf701024a30a60c35b"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/openai_codex/cli.py": {
+    "mtime": 1779649710.4308224,
+    "hash": "88deade6fc7d029b4e64457a3caec58f"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/openai_codex/storage.py": {
+    "mtime": 1779649710.4322386,
+    "hash": "a655da4e02a9a258c028fdc8a7101d18"
+  },
+  "/Users/kc/visualessential-scaffold/components/FaqAccordion.tsx": {
+    "mtime": 1779627748.665739,
+    "hash": "321aa7e6d0ae44b12848672117fa2ff7"
+  },
+  "/Users/kc/visualessential-scaffold/components/FloatingNav.tsx": {
+    "mtime": 1779627685.4967735,
+    "hash": "45155486b46442850f35a83d72ac84f6"
+  },
+  "/Users/kc/visualessential-scaffold/components/Particles.tsx": {
+    "mtime": 1779627702.0326147,
+    "hash": "e3da350dcb300443bf9b0cc6989d022e"
+  },
+  "/Users/kc/visualessential-scaffold/components/PhonePreview.tsx": {
+    "mtime": 1779627736.1589327,
+    "hash": "47e2c482ded6a53650128137183e2e11"
+  },
+  "/Users/kc/visualessential-scaffold/components/BeforeAfterCompare.tsx": {
+    "mtime": 1779627761.7673993,
+    "hash": "d0650a446a0ee78ff38bb99923d718aa"
+  },
+  "/Users/kc/visualessential-scaffold/lib/utils.ts": {
+    "mtime": 1779627644.7991216,
+    "hash": "8595c2f874aa1ff8c7cc28df2999f354"
+  },
+  "/Users/kc/visualessential-scaffold/lib/types.ts": {
+    "mtime": 1779627656.5255675,
+    "hash": "d122b9886385278f21a22e35c75f7400"
+  },
+  "/Users/kc/visualessential-scaffold/lib/jobStore.ts": {
+    "mtime": 1779642129.1414545,
+    "hash": "3a7ced37f377697105832938df493e5a"
+  },
+  "/Users/kc/visualessential-scaffold/lib/data/outfits.ts": {
+    "mtime": 1779627667.4790673,
+    "hash": "8a4f0ab4f3668b1b7fcd5d61540da383"
+  },
+  "/Users/kc/visualessential-scaffold/lib/data/lyrics.ts": {
+    "mtime": 1779627649.8847861,
+    "hash": "69c8b7777d6ae1b98ca5424b218dfcfa"
+  },
+  "/Users/kc/visualessential-scaffold/lib/data/shots.ts": {
+    "mtime": 1779627965.8542848,
+    "hash": "51967e28107f67af4ba17db5994d9faa"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/example_media.py": {
+    "mtime": 1779640733.9205084,
+    "hash": "c3781469d8b27d6a70edd9b000ff47cd"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/cli.py": {
+    "mtime": 1779640733.9197235,
+    "hash": "30d59493afcc687be4c5b4bdbf06e5bf"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/example.py": {
+    "mtime": 1779640733.9201388,
+    "hash": "6a186199d4d1d9aec266b3f54cd87af6"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/xai_oauth/media.py": {
+    "mtime": 1779656354.8357456,
+    "hash": "79ac91f2af67fd8325679d588eb25d75"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/xai_oauth/client.py": {
+    "mtime": 1779656306.1718998,
+    "hash": "d40cac414c0634ab1a4306ee29f80bff"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/xai_oauth/constants.py": {
+    "mtime": 1779656252.026013,
+    "hash": "7ce801d10f7ab45b3c2a73ee085fd0cb"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/xai_oauth/__init__.py": {
+    "mtime": 1779640733.9218342,
+    "hash": "92bee55f670ce539889d2f9ef5427b2b"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/xai_oauth/cli.py": {
+    "mtime": 1779640733.9221983,
+    "hash": "41f1813ffc5b0e579e0c338f2c0cd558"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/xai_oauth/storage.py": {
+    "mtime": 1779640733.9239664,
+    "hash": "76131411108bb87db17c10a26553d3dd"
+  },
+  "/Users/kc/visualessential-scaffold/README.md": {
+    "mtime": 1779627947.7395759,
+    "hash": "3c7dab2a77d65a5c5a445d7fe434a430"
+  },
+  "/Users/kc/visualessential-scaffold/CLAUDE.md": {
+    "mtime": 1779659700.5360038,
+    "hash": "da79aa9343cd2b362206f03762160abc"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/requirements.txt": {
+    "mtime": 1779657957.826334,
+    "hash": "d9daf06b89b2c2ff922e141551d1caeb"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/README.md": {
+    "mtime": 1779657957.7816968,
+    "hash": "e0240e2cd536356d88cd78a5307b75f7"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/cog.yaml": {
+    "mtime": 1779657957.804924,
+    "hash": "e991d42e4f99201618b97988398b2dcb"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/docs/changelog_v1.6.md": {
+    "mtime": 1779657957.806203,
+    "hash": "2e6ceb4d26ec1fc59ff489daa981ec0d"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/docs/syncnet_arch.md": {
+    "mtime": 1779657957.8092601,
+    "hash": "f3953595f4e66a8f9b1e080323d8fb5a"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/docs/changelog_v1.5.md": {
+    "mtime": 1779657957.8060973,
+    "hash": "aa711fb07f30110e9fec4323bee57820"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/assets/multilingual/merges.txt": {
+    "mtime": 1779657957.821261,
+    "hash": "c7f01d4100f6211417988889bf35ccd8"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/whisper/whisper/assets/gpt2/merges.txt": {
+    "mtime": 1779657957.817017,
+    "hash": "093ecf3f30371012f2e96fcfb10ea6ab"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/configs/audio.yaml": {
+    "mtime": 1779657957.8050613,
+    "hash": "f711d4e6c8852ca9bcb06b3b845ec2c3"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/configs/syncnet/syncnet_16_pixel.yaml": {
+    "mtime": 1779657957.805362,
+    "hash": "660c10851a12a7c0014886a59c39f83c"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/configs/syncnet/syncnet_16_latent.yaml": {
+    "mtime": 1779657957.8052757,
+    "hash": "f369503bea0398faa2909aa2cd8fe0b2"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/configs/syncnet/syncnet_16_pixel_attn.yaml": {
+    "mtime": 1779657957.805432,
+    "hash": "45c19a13876c38806e9f6b1c9fc6cdcc"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/configs/syncnet/syncnet_25_pixel.yaml": {
+    "mtime": 1779657957.8055022,
+    "hash": "ee82af0a921a1d047607e45c2e7768b3"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/configs/unet/stage2_efficient.yaml": {
+    "mtime": 1779657957.8059072,
+    "hash": "d9ea270b34aa3a269919d55063f444eb"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/configs/unet/stage2.yaml": {
+    "mtime": 1779657957.8057745,
+    "hash": "eb0850a7920235c4e55599998083e8a2"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/configs/unet/stage1_512.yaml": {
+    "mtime": 1779657957.8057082,
+    "hash": "c50fd56f533e8673228e656f09ea8d64"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/configs/unet/stage1.yaml": {
+    "mtime": 1779657957.8056307,
+    "hash": "125a78796c0c920c7479e35176770cac"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/configs/unet/stage2_512.yaml": {
+    "mtime": 1779657957.8058398,
+    "hash": "8652f2b43cd2de9d144e57e7823422be"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/eval/detectors/README.md": {
+    "mtime": 1779657957.8094676,
+    "hash": "af4d879854860f157eede5f9d9f7b02a"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/requirements.txt": {
+    "mtime": 1779642425.430572,
+    "hash": "5c18eac6de62de4e83e5c0b351e0c1ad"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/README.md": {
+    "mtime": 1779642425.419643,
+    "hash": "3aa7dd79042dd96e2a94af9253e1382d"
+  },
+  "/Users/kc/visualessential-scaffold/tools/Easy-Wav2Lip/checkpoints/README.md": {
+    "mtime": 1779642425.4200032,
+    "hash": "68b329da9893e34099c7d8ad5cb9c940"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/requirements.txt": {
+    "mtime": 1779649710.435398,
+    "hash": "053cff5377a6af0dcec0078e15b2ec9d"
+  },
+  "/Users/kc/visualessential-scaffold/openai-codex-client/README.md": {
+    "mtime": 1779649710.4291523,
+    "hash": "c27d1202ab9c99a5be1c18cfd1adef2f"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/requirements.txt": {
+    "mtime": 1779640733.921213,
+    "hash": "1bba69fa13f9558fb55e0303ebbf52b5"
+  },
+  "/Users/kc/visualessential-scaffold/xai-oauth-client/README.md": {
+    "mtime": 1779640733.919108,
+    "hash": "7984a2376355b3b0516756857a67e705"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/docs/framework.png": {
+    "mtime": 1779657957.8091547,
+    "hash": "9ee373d4f1206f15126427c4830a3237"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/utils/mask4.png": {
+    "mtime": 1779657957.81486,
+    "hash": "c2f41a91a23a16139ffd57c03125dfd3"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/utils/mask2.png": {
+    "mtime": 1779657957.8146226,
+    "hash": "96e2fd43fa8036497753e204c24c015c"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/utils/mask3.png": {
+    "mtime": 1779657957.8147595,
+    "hash": "15001a359a36d3e8cd28c97e4083a46a"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/latentsync/utils/mask.png": {
+    "mtime": 1779657957.8145344,
+    "hash": "3950d9f1237300ac5f7267798789a007"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/armory-after-poster.jpg": {
+    "mtime": 1779637473.9811413,
+    "hash": "a455a878d3543053d08416011e0db8c8"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/in-the-city-after-poster.jpg": {
+    "mtime": 1779637474.0561304,
+    "hash": "88d68206407ceb9e27cd8cfcaaf686cd"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/by-the-fire-after-poster.jpg": {
+    "mtime": 1779637474.0171976,
+    "hash": "3fd214dca040c126d3ef63fd2703da1f"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/in-the-city-before-poster.jpg": {
+    "mtime": 1779637474.0753932,
+    "hash": "40e1b7497a54e74b32c19eb2da3e2b23"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/on-the-radar-after-poster.jpg": {
+    "mtime": 1779637474.087814,
+    "hash": "72feb49839161460a24ca747a3d32ef0"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/on-the-radar-before-poster.jpg": {
+    "mtime": 1779637474.099399,
+    "hash": "a5e5f2c4cfb5b54481a0b01c11c1adbb"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/by-the-fire-before-poster.jpg": {
+    "mtime": 1779637474.041626,
+    "hash": "6659ddb14f4691867a90c838eed044eb"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/armory-before-poster.jpg": {
+    "mtime": 1779637473.9988987,
+    "hash": "c08ccd1c7fe69b09d0ec19682ada2b36"
+  },
+  "/Users/kc/visualessential-scaffold/public/artists/nora-kari-poster.jpg": {
+    "mtime": 1779637474.2200348,
+    "hash": "4cc99888f7e62aa0bac167b8cf6c2f58"
+  },
+  "/Users/kc/visualessential-scaffold/public/artists/leoh-poster.jpg": {
+    "mtime": 1779637474.1549888,
+    "hash": "b859f967220efb26bb17edc72e2c1bf0"
+  },
+  "/Users/kc/visualessential-scaffold/public/artists/leoh-pfp.png": {
+    "mtime": 1779637474.1543412,
+    "hash": "49cfbd950f6f91234a1ae7e362a79209"
+  },
+  "/Users/kc/visualessential-scaffold/public/artists/nora-pfp.png": {
+    "mtime": 1779637474.285909,
+    "hash": "88cc9a38b0d8a5eb874b77fe602023e4"
+  },
+  "/Users/kc/visualessential-scaffold/public/artists/eissa-pfp.png": {
+    "mtime": 1779637474.1536214,
+    "hash": "36c26c28d565416edff281bc4299a819"
+  },
+  "/Users/kc/visualessential-scaffold/public/artists/brooks-poster.jpg": {
+    "mtime": 1779637474.1114461,
+    "hash": "6500f1d662fb2c016031400df367d6d2"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/assets/demo2_audio.wav": {
+    "mtime": 1779657957.788988,
+    "hash": "0448ccc0d27940faaa6a73f3bdcc6130"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/assets/demo1_video.mp4": {
+    "mtime": 1779657957.7866821,
+    "hash": "96e6fccb858c9f126725851aea42c49c"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/assets/demo3_audio.wav": {
+    "mtime": 1779657957.7972229,
+    "hash": "0b6c1a459788515830cbb703726b9896"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/assets/demo2_video.mp4": {
+    "mtime": 1779657957.7950044,
+    "hash": "fbf5028dbbb76e6f84958e551e8f72aa"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/assets/demo3_video.mp4": {
+    "mtime": 1779657957.8047702,
+    "hash": "7e3cb0246c2a22293143b1c9acd9dc66"
+  },
+  "/Users/kc/visualessential-scaffold/tools/LatentSync/assets/demo1_audio.wav": {
+    "mtime": 1779657957.7830071,
+    "hash": "f4d9d73e0e5fc5bdf80f3dcdeb151e72"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/armory-before.mp4": {
+    "mtime": 1779637474.0162382,
+    "hash": "349f4ed10174d6837ed612dbbfb1bf44"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/on-the-radar-after.mp4": {
+    "mtime": 1779637474.0985153,
+    "hash": "a3cac531f64c85724c4d469d16893bde"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/by-the-fire-after.mp4": {
+    "mtime": 1779637474.037971,
+    "hash": "1d09c15ddefade90cbf281c33e743e6b"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/by-the-fire-before.mp4": {
+    "mtime": 1779637474.0540168,
+    "hash": "92eb57b0b94b3d43169cd23cd6818d11"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/armory-after.mp4": {
+    "mtime": 1779637473.9966676,
+    "hash": "010fff23d75612d06637ddafee78a488"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/on-the-radar-before.mp4": {
+    "mtime": 1779637474.1064053,
+    "hash": "f092e7365c953ccb67ed5df864a93611"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/in-the-city-before.mp4": {
+    "mtime": 1779637474.0869997,
+    "hash": "8c317e065c494ddd25f8c2c4bf17905a"
+  },
+  "/Users/kc/visualessential-scaffold/public/videos/in-the-city-after.mp4": {
+    "mtime": 1779637474.0736084,
+    "hash": "026eaa1eed2486c1c59eeb2cd45af46d"
+  },
+  "/Users/kc/visualessential-scaffold/public/artists/leoh.mp4": {
+    "mtime": 1779637474.2190914,
+    "hash": "6c5daaea73298ead6f75b19725de3c6c"
+  },
+  "/Users/kc/visualessential-scaffold/public/artists/brooks.mp4": {
+    "mtime": 1779637474.1525595,
+    "hash": "95947a26f3b73a9bc2e01117018316bc"
+  },
+  "/Users/kc/visualessential-scaffold/public/artists/nora-kari.mp4": {
+    "mtime": 1779637474.284753,
+    "hash": "66f59efd8fe0c4eff9bcfae49953e769"
+  }
+}

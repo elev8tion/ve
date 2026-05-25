@@ -37,8 +37,6 @@ tools/Easy-Wav2Lip/checkpoints/
 tools/LatentSync/temp/
 tools/LatentSync/output/
 
-# graphify generated outputs
-graphify-out/
 
 # Logs
 *.log

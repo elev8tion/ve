@@ -16,6 +16,17 @@ import tempfile
 import mlx.core as mx
 import mlx.nn as nn
 import numpy as np
+from mlx.utils import tree_map
+
+
+def _cast_to_float16(model: nn.Module) -> None:
+    """Cast all float32 parameters in-place to float16 for 2-3× faster inference."""
+    new_params = tree_map(
+        lambda x: x.astype(mx.float16) if isinstance(x, mx.array) and x.dtype == mx.float32 else x,
+        model.parameters(),
+    )
+    model.update(new_params)
+    mx.eval(model.parameters())
 
 from .vae import VAEKL, build_vae
 from .whisper import Audio2FeatureMLX
@@ -71,19 +82,29 @@ def write_video_frames(frames: np.ndarray, fps: float, out_path: str,
         Path(tmp_video).unlink(missing_ok=True)
 
 
-def frames_to_latents(frames_uint8: np.ndarray, vae: VAEKL) -> mx.array:
-    """(N, H, W, 3) uint8 → (N, H/8, W/8, 4) latents."""
+def frames_to_latents(frames_uint8: np.ndarray, vae: VAEKL,
+                       batch: int = 16) -> mx.array:
+    """(N, H, W, 3) uint8 → (N, H/8, W/8, 4) latents, processed in batches."""
     frames_f = (frames_uint8.astype(np.float32) / 127.5) - 1.0
-    return vae.encode_frames(mx.array(frames_f))
+    chunks = []
+    for i in range(0, len(frames_f), batch):
+        z = vae.encode_frames(mx.array(frames_f[i:i + batch]))
+        mx.eval(z)
+        chunks.append(z)
+    return mx.concatenate(chunks, axis=0)
 
 
-def latents_to_frames(latents: mx.array, vae: VAEKL) -> np.ndarray:
-    """(N, H/8, W/8, 4) latents → (N, H, W, 3) uint8."""
-    out = vae.decode_frames(latents)
-    mx.eval(out)
-    frames_f = np.array(out)
-    frames_f = np.clip((frames_f + 1.0) * 127.5, 0, 255).astype(np.uint8)
-    return frames_f
+def latents_to_frames(latents: mx.array, vae: VAEKL,
+                       batch: int = 16) -> np.ndarray:
+    """(N, H/8, W/8, 4) latents → (N, H, W, 3) uint8, processed in batches."""
+    N = latents.shape[0]
+    out_chunks = []
+    for i in range(0, N, batch):
+        chunk = vae.decode_frames(latents[i:i + batch])
+        mx.eval(chunk)
+        out_chunks.append(np.array(chunk))
+    frames_f = np.concatenate(out_chunks, axis=0)
+    return np.clip((frames_f + 1.0) * 127.5, 0, 255).astype(np.uint8)
 
 
 # ── Pipeline ──────────────────────────────────────────────────────────────────
@@ -111,7 +132,8 @@ class LipsyncPipelineMLX:
         self.audio_encoder = audio_encoder
         self.unet          = unet
         self.scheduler     = scheduler
-        # No projection: Whisper tiny (384) → UNet cross_attention_dim (384) directly
+        # Compile the UNet forward pass — MLX traces+caches the graph for fixed shapes
+        self._unet_step    = mx.compile(self._run_unet_step)
 
     @classmethod
     def from_checkpoints(
@@ -126,6 +148,8 @@ class LipsyncPipelineMLX:
         if skipped:
             print(f"  VAE: {len(skipped)} keys skipped")
         mx.eval(vae.parameters())
+        _cast_to_float16(vae)
+        print("  VAE → float16")
 
         print("[LatentSync-MLX] Loading Whisper audio encoder...")
         audio_enc = Audio2FeatureMLX.from_checkpoint(whisper_ckpt)
@@ -137,6 +161,8 @@ class LipsyncPipelineMLX:
         if skipped:
             print(f"  UNet: {len(skipped)} keys skipped")
         mx.eval(unet.parameters())
+        _cast_to_float16(unet)
+        print("  UNet → float16")
 
         scheduler = DDIMSchedulerMLX(
             num_train_timesteps=1000,
@@ -147,6 +173,11 @@ class LipsyncPipelineMLX:
 
         return cls(vae, audio_enc, unet, scheduler)  # no audio_proj — 384 == cross_attention_dim
 
+    def _run_unet_step(self, noisy: mx.array, t: mx.array,
+                       cond: mx.array, audio: mx.array) -> mx.array:
+        """Pure function wrapping UNet forward — compiled by mx.compile()."""
+        return self.unet(mx.concatenate([noisy, cond], axis=-1), t, audio)
+
     def __call__(
         self,
         video_path: str,
@@ -155,6 +186,7 @@ class LipsyncPipelineMLX:
         num_inference_steps: int = 20,
         guidance_scale: float = 2.0,
         fps: Optional[float] = None,
+        chunk_frames: int = 16,
     ) -> None:
         print("[LatentSync-MLX] Reading video frames...")
         frames_np, detected_fps = read_video_frames(video_path)
@@ -163,55 +195,61 @@ class LipsyncPipelineMLX:
         print(f"  {N} frames @ {video_fps:.1f} fps")
 
         print("[LatentSync-MLX] Extracting audio features...")
-        audio_feat = self.audio_encoder.audio2feat(audio_path)   # (T_ctx, 384)
+        audio_feat   = self.audio_encoder.audio2feat(audio_path)
         audio_chunks = self.audio_encoder.feature2chunks(audio_feat, fps=video_fps)
-        # Pad or trim to match frame count
         while len(audio_chunks) < N:
             audio_chunks.append(audio_chunks[-1])
         audio_chunks = audio_chunks[:N]
-        # Stack: (N, 50, 384) — directly usable as UNet cross_attention (dim=384)
-        audio_seq = np.stack(audio_chunks, axis=0)  # (N, 50, 384)
-        audio_mx  = mx.array(audio_seq.astype(np.float32))
-        mx.eval(audio_mx)
+        audio_seq = np.stack(audio_chunks, axis=0).astype(np.float32)  # (N, 50, 384)
 
         print("[LatentSync-MLX] Encoding video latents...")
         latents = frames_to_latents(frames_np, self.vae)  # (N, h, w, 4)
         mx.eval(latents)
-
-        # Build 13-channel UNet conditioning input per stage2.yaml:
-        #   ch 0-3:  noisy denoised latents (added during DDIM loop below)
-        #   ch 4-7:  masked latents (lower-half face region zeroed out)
-        #   ch 8-11: reference (full) latents
-        #   ch 12:   binary mask (1 = masked region)
         h, w = latents.shape[1], latents.shape[2]
-        mask = mx.zeros((len(latents), h, w, 1))
-        mask = mask.at[:, h // 2:, :, :].set(1.0)
-        masked_latents = latents * (1.0 - mask)          # zero out lower half
-        # conditioning = [masked(4) | ref(4) | mask(1)] = 9 ch appended after noisy(4)
-        conditioning = mx.concatenate([masked_latents, latents, mask], axis=-1)  # (N, h, w, 9)
 
-        # Add batch dim: (1, N, h, w, 9)
-        conditioning = conditioning[None]
-        audio_mx     = audio_mx[None]  # (1, N, 50, 384)
+        # Build per-frame mask + conditioning (9 ch: masked(4)|ref(4)|mask(1))
+        mask_np                   = np.zeros((N, h, w, 1), dtype=np.float32)
+        mask_np[:, h // 2:, :, :] = 1.0
+        mask            = mx.array(mask_np)
+        masked_latents  = latents * (1.0 - mask)
+        conditioning    = mx.concatenate([masked_latents, latents, mask], axis=-1)  # (N,h,w,9)
+        mx.eval(conditioning)
 
-        # Add noise and run DDIM — noisy is (1, N, h, w, 4)
-        print(f"[LatentSync-MLX] DDIM denoising ({num_inference_steps} steps)...")
+        # Process in chunks of `chunk_frames` (= 16, matching stage2.yaml num_frames)
+        print(f"[LatentSync-MLX] DDIM denoising — {N} frames in chunks of {chunk_frames} "
+              f"({num_inference_steps} steps each)...")
         self.scheduler.set_timesteps(num_inference_steps)
-        noisy = mx.random.normal((1, N, h, w, 4))
 
-        for step_idx, t in enumerate(self.scheduler.timesteps):
-            t_tensor = mx.array([t])
-            # 13-ch input: concat noisy(4) with conditioning(9) on channel axis
-            unet_in = mx.concatenate([noisy, conditioning], axis=-1)
-            noise_pred = self.unet(unet_in, t_tensor, audio_mx)
-            noisy = self.scheduler.step(noise_pred, int(t), noisy, eta=0.0)
-            mx.eval(noisy)
-            if step_idx % 5 == 0:
-                print(f"  step {step_idx + 1}/{num_inference_steps}")
+        out_latents_list = []
+        n_chunks = (N + chunk_frames - 1) // chunk_frames
+
+        for ci in range(n_chunks):
+            s, e = ci * chunk_frames, min((ci + 1) * chunk_frames, N)
+            F = e - s
+            print(f"  chunk {ci+1}/{n_chunks}  frames {s}-{e-1}")
+
+            # Cast conditioning + audio to float16 to match model weights
+            cond_c  = conditioning[s:e][None].astype(mx.float16)  # (1,F,h,w,9)
+            audio_c = mx.array(audio_seq[s:e])[None].astype(mx.float16)  # (1,F,50,384)
+            noisy   = mx.random.normal((1, F, h, w, 4)).astype(mx.float16)
+            mx.eval(cond_c, audio_c, noisy)
+
+            for t in self.scheduler.timesteps:
+                t_tensor   = mx.array([int(t)])
+                noise_pred = self._unet_step(noisy, t_tensor, cond_c, audio_c)
+                # Cast back to float32 for scheduler (pure math)
+                noisy = self.scheduler.step(
+                    noise_pred.astype(mx.float32), int(t),
+                    noisy.astype(mx.float32), eta=0.0,
+                ).astype(mx.float16)
+                mx.eval(noisy)
+
+            out_latents_list.append(noisy[0].astype(mx.float32))  # (F, h, w, 4)
+
+        out_latents = mx.concatenate(out_latents_list, axis=0)  # (N, h, w, 4)
 
         print("[LatentSync-MLX] Decoding output frames...")
-        out_latents = noisy[0]  # (N, h, w, 4)
-        out_frames  = latents_to_frames(out_latents, self.vae)  # (N, H, W, 3)
+        out_frames = latents_to_frames(out_latents, self.vae)  # (N, H, W, 3)
 
         print("[LatentSync-MLX] Writing output video...")
         write_video_frames(out_frames, video_fps, output_path, audio_path=audio_path)

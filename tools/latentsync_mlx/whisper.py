@@ -108,7 +108,9 @@ class AudioEncoderMLX(nn.Module):
         """mel: (B, T_frames, N_MELS) → (B, T_ctx, N_STATE)"""
         x = nn.gelu(self.conv1(mel))
         x = nn.gelu(self.conv2(x))
-        x = x + self._pos_emb[:x.shape[1]]
+        # Clip to N_CTX (padding can produce T_ctx = N_CTX+1); add batch dim to pos_emb
+        x = x[:, :N_CTX]
+        x = x + self._pos_emb[None, :x.shape[1]]
         for block in self.blocks:
             x = block(x)
         return self.ln_post(x)

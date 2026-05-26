@@ -36,23 +36,58 @@ def _set_nested(obj: Any, key_path: list[str], value: mx.array) -> None:
 
 # ── VAE ──────────────────────────────────────────────────────────────────────
 
+def _remap_vae_key(pt_key: str) -> str:
+    """
+    Remap sd-vae-ft-mse checkpoint keys to MLX VAEKL attribute paths.
+
+    Structural differences:
+      - downsamplers.N.conv  → downsample  (direct Conv2d, no wrapper)
+      - upsamplers.N.conv    → upsample
+      - mid_block.resnets.0  → mid_blocks.0
+      - mid_block.attentions.0 → mid_blocks.1
+      - mid_block.resnets.1  → mid_blocks.2
+      - VAEAttention: to_q/to_k/to_v/to_out.N → query_proj/key_proj/value_proj/out_proj
+    """
+    k = pt_key
+    k = re.sub(r'downsamplers\.\d+\.conv\.', 'downsample.', k)
+    k = re.sub(r'upsamplers\.\d+\.conv\.', 'upsample.', k)
+    k = k.replace('mid_block.resnets.0.', 'mid_blocks.0.')
+    k = k.replace('mid_block.attentions.0.', 'mid_blocks.1.')
+    k = k.replace('mid_block.resnets.1.', 'mid_blocks.2.')
+    k = re.sub(r'\.to_q\.', '.query_proj.', k)
+    k = re.sub(r'\.to_k\.', '.key_proj.', k)
+    k = re.sub(r'\.to_v\.', '.value_proj.', k)
+    k = re.sub(r'\.to_out\.\d+\.', '.out_proj.', k)
+    return k
+
+
+def _transform_conv_weight(pt_key: str, val_np: np.ndarray) -> np.ndarray:
+    """
+    Reshape Conv2d weights for MLX:
+      - 1×1 Conv2d used as Linear (conv_shortcut, quant_conv, post_quant_conv):
+        (out, in, 1, 1) → (out, in)
+      - All other Conv2d: (out, in, kH, kW) → (out, kH, kW, in)
+    """
+    if val_np.ndim != 4 or "weight" not in pt_key:
+        return val_np
+    if "conv_shortcut" in pt_key or "quant_conv" in pt_key:
+        return val_np[:, :, 0, 0]
+    return val_np.transpose(0, 2, 3, 1)
+
+
 def load_vae_weights(mlx_vae: Any, hf_model_id: str = "stabilityai/sd-vae-ft-mse") -> list[str]:
-    """
-    Load sd-vae-ft-mse weights from HuggingFace into an MLX VAE model.
-    Conv2d weights are transposed from PyTorch (out,in,kH,kW) → MLX (out,kH,kW,in).
-    """
+    """Load sd-vae-ft-mse weights from HuggingFace into an MLX VAEKL model."""
     from diffusers import AutoencoderKL
     pt_vae = AutoencoderKL.from_pretrained(hf_model_id, torch_dtype=None)
     skipped = []
     for pt_key, pt_val in pt_vae.state_dict().items():
-        val_np = _torch_to_np(pt_val)
-        if val_np.ndim == 4 and "weight" in pt_key:
-            val_np = val_np.transpose(0, 2, 3, 1)
-        parts = pt_key.split(".")
+        mlx_key = _remap_vae_key(pt_key)
+        val_np = _transform_conv_weight(pt_key, _torch_to_np(pt_val))
+        parts = mlx_key.split(".")
         try:
             _set_nested(mlx_vae, parts, mx.array(val_np))
         except (AttributeError, IndexError, TypeError) as e:
-            skipped.append(f"{pt_key}: {e}")
+            skipped.append(f"{pt_key} → {mlx_key}: {e}")
     return skipped
 
 
@@ -153,25 +188,6 @@ def _remap_unet_key(pt_key: str) -> str | None:
     return k
 
 
-def _transform_unet_weight(pt_key: str, val_np: np.ndarray) -> np.ndarray:
-    """
-    Apply weight shape transformations for MLX Conv2d layout.
-
-    PyTorch Conv2d weight: (out, in, kH, kW)
-    MLX Conv2d weight:     (out, kH, kW, in)
-
-    conv_shortcut is nn.Linear in our MLX model (PyTorch stored it as 1×1 Conv2d),
-    so squeeze the spatial dims rather than transposing them.
-    """
-    if val_np.ndim != 4 or "weight" not in pt_key:
-        return val_np
-
-    # conv_shortcut → nn.Linear: (out, in, 1, 1) → (out, in)
-    if "conv_shortcut" in pt_key:
-        return val_np[:, :, 0, 0]
-
-    # All other Conv2d weights (including 1×1 proj_in/proj_out): transpose to (out,kH,kW,in)
-    return val_np.transpose(0, 2, 3, 1)
 
 
 def load_unet_weights(mlx_unet: Any, ckpt_path: str | Path) -> list[str]:
@@ -194,7 +210,7 @@ def load_unet_weights(mlx_unet: Any, ckpt_path: str | Path) -> list[str]:
         if mlx_key is None:
             continue
 
-        val_np = _transform_unet_weight(pt_key, _torch_to_np(pt_val))
+        val_np = _transform_conv_weight(pt_key, _torch_to_np(pt_val))
 
         parts = mlx_key.split(".")
         try:
